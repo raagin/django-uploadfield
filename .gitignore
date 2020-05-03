@@ -1,0 +1,8 @@
+*.pyc
+.DS_Store
+dist/*
+build/*
+django_uploadfield.egg-info/*
+test_project/db.sqlite3
+package-lock.json
+node_modules/*
