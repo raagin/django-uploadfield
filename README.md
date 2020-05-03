@@ -9,7 +9,7 @@ Feeatures:
 django-uploadfield uses Dropzone.js, Vue, jQuery and Fancybox js modules. \
 Project in development stage. Now it works only in django admin interface.
 
-In plans:\
+In plans:
 - Custom file and image processing function.
 - Make it works in outside of django admin and with DjangoRestFramework.
 
