@@ -1,5 +1,5 @@
 # Django Uploadfield
-Direct uploading files and handling it in templates with [Django FileBrowser](https://github.com/sehmaschine/django-filebrowser/)
+Direct uploading files and handling it in templates with [Django FileBrowser](https://github.com/sehmaschine/django-filebrowser/) (FB)
 Module use Dropzone.js, Vue and Fancybox js modules.
 Allow to add multiple images in django-filebrowser module if "image" field exists in inline model.
 Project in development stage. Now it works only in django admin interface.
@@ -29,10 +29,20 @@ INSTALLED_APPS = [
     ]
 ```
 
-**2. In models.py**
+**2. Add module urls**
+```python
+# urls.py
+urlpatterns = [
+    ...
+    path('uploadfield/', include('uploadfield.urls'))
+]
+```
+
+**3. In models.py**
 ```python
 # models.py
 from django.db import models
+
 from uploadfield.fields import UploadField
 from uploadfield.models import UploadFieldMixin
 
@@ -45,12 +55,12 @@ class MyModel(UploadFieldMixin, models.Model):
         directory=lambda o: f'myfiles/{o.id}/'
         )
 ```
-Field options same as for FileBrowserField
-- `directory` option can be callable or string.
+Field have same options with FileBrowserField
+- `directory` option of FB overrided and can be callable or string.
 - `extensions` are optional.
 - Use `blank=True` for the possibility of an empty value
 
-**3. In templates**
+**4. In templates**
 It is the same as for django-filebrowser
 Read more: https://django-filebrowser.readthedocs.io/en/latest/
 
