@@ -23,6 +23,7 @@ class UploadFieldWidget(FileBrowseWidget):
             '/static/uploadfield/vendor/vue.min.js',
             '/static/uploadfield/vendor/jquery.fancybox.min.js',
             '/static/uploadfield/vendor/dropzone/dropzone.js',
+            '/static/uploadfield/vendor/js.cookie.js',
             '/static/uploadfield/js/uploadfield.js',
             )
 
