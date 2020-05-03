@@ -11,7 +11,7 @@ Project in development stage. Now it works only in django admin interface.
 
 In plans:
 - Custom file and image processing function.
-- Make it works in outside of django admin and with DjangoRestFramework.
+- Make it work outside of Django admin and with DjangoRestFramework.
 
 ## Installation
 
