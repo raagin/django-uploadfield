@@ -1,11 +1,17 @@
 # Django Uploadfield
-Direct uploading files and handling it in templates with [Django FileBrowser](https://github.com/sehmaschine/django-filebrowser/) (FB). \
-Module use Dropzone.js, Vue and Fancybox js modules. \
-Allow to add multiple images in django-filebrowser module if "image" field exists in inline model.\
+Direct uploading files and handling it in templates with [Django FileBrowser](https://github.com/sehmaschine/django-filebrowser/) (FB).
+
+Feeatures:
+- Dropdown
+- Dynamic preview and file info
+- Static or dynamic destination folder
+
+django-uploadfield uses Dropzone.js, Vue, jQuery and Fancybox js modules. \
 Project in development stage. Now it works only in django admin interface.
 
 In plans:\
-Make it works in outside of django admin and with DjangoRestFramework.
+- Custom file and image processing function.
+- Make it works in outside of django admin and with DjangoRestFramework.
 
 ## Installation
 
