@@ -1,0 +1,5 @@
+  
+include README.md
+include LICENSE
+recursive-include uploadfield/static *
+recursive-include uploadfield/templates *
