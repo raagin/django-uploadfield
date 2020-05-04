@@ -28,7 +28,7 @@ def preview(request):
 
     file = request.GET.get('file')
     obj = FileObject(file) if file else ""
-    
+    print(obj.__dict__)
     return JsonResponse(dict(
         filename=obj.filename,
         url=obj.url,

@@ -25,7 +25,7 @@ def makedir(dir_path):
         except FileExistsError:
             pass
 
-def handle_uploaded_file(f, to, func=None):
+def handle_uploaded_file(f, to):
     file_name = convert_filename(str(f))
     to_dir = os.path.join(settings.MEDIA_ROOT, *to.split('/'))
     
@@ -37,9 +37,6 @@ def handle_uploaded_file(f, to, func=None):
     with open(file_path, 'wb+') as image_file:
         for chunk in f.chunks():
             image_file.write(chunk)
-
-    if func:
-        file_name = func(file_path)
 
     file_url = to + file_name
     return file_url

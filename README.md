@@ -11,7 +11,7 @@ Project in development stage. Now it works only in django admin interface.
 
 In plans:
 - Custom file and image processing function.
-- Make it work outside of Django admin and with DjangoRestFramework.
+- Make it work with DjangoRestFramework.
 
 ## Installation
 
@@ -69,6 +69,9 @@ Field have same options with FileBrowserField
 **4. In templates**
 It is the same as for django-filebrowser
 Read more: https://django-filebrowser.readthedocs.io/en/latest/
+
+**4. Using outside of django admin**
+You need to add jquery.js on page and `{{ form.media }}`
 
 ## Settings
 You may reasign this default values:

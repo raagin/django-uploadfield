@@ -1,4 +1,4 @@
 <div id="uploadfield_app_{{ name }}" class="uploadfield_app" v-cloak>
-    <input type="text" class="uploadfield__field" value="{{ value.path }}" {% for name, value in final_attrs.items %}{% if value is not False %} {{ name }}{% if value is not True %}="{{ value|stringformat:'s' }}"{% endif %}{% endif %}{% endfor %} allowed_title="{{ allowed_title }}" hidden>
+    <input type="text" class="uploadfield__field" value="{{ value.path }}" {% for name, value in final_attrs.items %}{% if value is not False %} {{ name }}{% if value is not True %}="{{ value|stringformat:'s' }}"{% endif %}{% endif %}{% endfor %} allowed_title="{{ allowed_title }}">
     <div class="uploadfield_app_tmpl"></div>
 </div>

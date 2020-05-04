@@ -39,6 +39,12 @@ class UploadFieldMixin:
                 if value and value_path.startswith(TEMP_DIR):
                     # move file from temporary folder to main storage
                     # and set instance attr new file path
+
+                    # 0. apply func if exists
+                    method = obj.get('method', None)
+                    if method and callable(method):
+                        value_path = method(self, value)
+
                     # 1. find directory
                     if directory:
                         if callable(directory):
@@ -52,11 +58,10 @@ class UploadFieldMixin:
                     # 2. make new path
                     new_file_path = value_path.replace(TEMP_DIR, new_path)
                     new_file_path = check_existing(new_file_path)
-                    
+
                     # 3. make dir if not exists
                     makedir(os.path.dirname(
                             os.path.join(settings.MEDIA_ROOT, new_file_path)))
-                    
                     # 4. delete tmp version
                     value.delete_versions()
                     # 5. move
