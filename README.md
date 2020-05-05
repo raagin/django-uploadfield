@@ -7,8 +7,7 @@ Features:
 - Static or dynamic destination folder
 - Custom file and image processing function
 
-django-uploadfield uses Dropzone.js, Vue, jQuery and Fancybox js modules. \
-Project in development stage. Now it works only in django admin interface.
+django-uploadfield uses Dropzone.js, Vue, jQuery and Fancybox js modules.
 
 In plans:
 - Make it work with DjangoRestFramework.
