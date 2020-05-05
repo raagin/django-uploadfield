@@ -69,11 +69,11 @@ Field have same options with FileBrowserField
 - `method` - Custom file and image processing function. Method get two arguments, model instance and FileObject. (optional)
 - Use `blank=True` for the possibility of an empty value
 
-**4. In templates**
+**4. In templates**\
 It is the same as for django-filebrowser
 Read more: https://django-filebrowser.readthedocs.io/en/latest/
 
-**4. Using outside of django admin**
+**5. Using outside of django admin**\
 You need to add jquery.js on page and `{{ form.media }}`
 
 ## Settings
