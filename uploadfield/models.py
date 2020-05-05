@@ -42,6 +42,7 @@ class UploadFieldMixin:
 
                     # 0. apply func if exists
                     rename = obj.get('rename', None)
+                    renamed_file = None
                     if rename and callable(rename):
                         renamed_file = f"{rename(self)}{value.extension}"
 

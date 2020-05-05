@@ -23,10 +23,11 @@
     border-radius: 3px;
     transition: all ease-in 0.2s;
     cursor: pointer;
-    background-color: rgba(255,255,255,0.3)  
+    background-color: #f3f3f3;
 }
 .uploadfield_app__images-add:hover {
-    background-color: rgba(255,255,255,0.6)  
+    background-color: #f8f8f8;
+    border-color: #7fafbf;
 }
 .uploadfield_app__images-add:after,
 .uploadfield_app__images-add:before {
@@ -111,12 +112,12 @@
 .uploadfield_app__preview.image .uploadfield_app__delete,
 .uploadfield_app__preview.image .uploadfield_app__view {
     top: 50%;
-    left: 30%;
-    transform: translate(-50%, -50%);
+    left: 50%;
+    transform: translate(-30px, -50%);
     opacity: 0;
 }
 .uploadfield_app__preview.image .uploadfield_app__delete {
-    left: 70%;
+    transform: translate(5px, -50%);
 }
 .uploadfield_app__preview.document .uploadfield_app__delete {
     background: none;

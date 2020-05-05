@@ -28,12 +28,13 @@ def preview(request):
 
     file = request.GET.get('file')
     obj = FileObject(file) if file else ""
-    
+    thumbnail_name = request.GET.get('thumbnail_name', THUMBNAIL)
+
     return JsonResponse(dict(
         filename=obj.filename,
         url=obj.url,
         filetype=obj.filetype,
         filesize=filesizeformat(obj.filesize),
-        thumbnail=obj.version_generate(THUMBNAIL).url if obj.filetype == 'Image' else None
+        thumbnail=obj.version_generate(thumbnail_name).url if obj.filetype == 'Image' else None
     ))
         

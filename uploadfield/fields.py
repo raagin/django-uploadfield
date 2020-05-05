@@ -8,11 +8,23 @@ from django.contrib.admin.options import FORMFIELD_FOR_DBFIELD_DEFAULTS
 from filebrowser.fields import FileBrowseWidget, FileBrowseFormField
 from filebrowser.base import FileObject
 from filebrowser.sites import site
+from filebrowser.settings import VERSIONS
 
 from .conf import THUMBNAIL
 
 class UploadFieldWidget(FileBrowseWidget):
     template_name = 'uploadfield/uploadfield_widget.html'
+
+    def __init__(self, attrs={}):
+        super().__init__(attrs)
+        self.site = attrs.get('filebrowser_site', None)
+        self.extensions = attrs.get('extensions', '')
+        self.thumbnail = attrs.get('thumbnail', '')
+        if attrs is not None:
+            self.attrs = attrs.copy()
+        else:
+            self.attrs = {}
+        super().__init__(attrs)
 
     class Media:
         css = {
@@ -35,7 +47,19 @@ class UploadFieldWidget(FileBrowseWidget):
         if value != "" and not isinstance(value, FileObject):
             value = FileObject(value, site=self.site)
         final_attrs = self.build_attrs(attrs, extra_attrs={"type": self.input_type, "name": name})
-        final_attrs['extensions'] = json.dumps(self.extensions)
+        final_attrs['data-extensions'] = json.dumps(self.extensions)
+        final_attrs['data-thumbnail_size'] = "{}"
+        if self.thumbnail:
+            final_attrs['data-thumbnail'] = self.thumbnail
+
+        fb_version = VERSIONS.get(self.thumbnail, None)
+        if fb_version:
+            final_attrs['data-thumbnail_size'] = json.dumps(dict(
+                width=fb_version['width'],
+                height=fb_version['height']
+                ))
+        
+        filebrowser_site = self.site
         allowed_title = _('Allowed')
         return render_to_string("uploadfield/uploadfield_widget.html", locals())
 
@@ -50,6 +74,7 @@ class UploadField(CharField):
         self.extensions = kwargs.pop('extensions', '')
         self.method = kwargs.pop('method', None)
         self.rename = kwargs.pop('rename', None)
+        self.thumbnail = kwargs.pop('thumbnail', '')
         return super().__init__(*args, **kwargs)
         
 
@@ -99,6 +124,7 @@ class UploadField(CharField):
         attrs["filebrowser_site"] = self.site
         attrs["directory"] = self.directory
         attrs["extensions"] = self.extensions
+        attrs["thumbnail"] = self.thumbnail
         defaults = {
             'widget': widget_class(attrs=attrs),
             'form_class': FileBrowseFormField,

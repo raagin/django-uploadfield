@@ -7,7 +7,7 @@
         // tmpl for dynamic added field
         var boundTemplate = function(field_name, allowed_title) {
             return `
-            <div v-if="preview_exists" class="uploadfield_app__preview" :class="filetype_lower">
+            <div v-if="preview_exists" class="uploadfield_app__preview" :class="filetype_lower" :style="$options.placeholder_size">
                 <div v-if="preview.filetype == 'Image'">
                     <img class="preview" :src="preview.thumbnail" alt="">
                 </div>
@@ -21,7 +21,7 @@
             </div>
 
             <div v-show="!field_value" class="uploadfield_app__add-new">
-                <div v-show="!uploading" id="${field_name}-add" class="uploadfield_app__images-add"></div>
+                <div v-show="!uploading" id="${field_name}-add" class="uploadfield_app__images-add" :style="$options.placeholder_size"></div>
                 <div v-if="uploading" class="uploadfield_app__images-loading">
                     <span v-text="totalBytes + '%'"></span>
                 </div>
@@ -37,7 +37,9 @@
 
         function initApp(app_node) {            
             var field_node = app_node.querySelector('.uploadfield__field');
-            var extensions = JSON.parse(field_node.getAttribute('extensions'));
+            var extensions = JSON.parse(field_node.dataset.extensions);
+            var thumbnail_name = field_node.dataset.thumbnail;
+            var thumbnail_size = JSON.parse(field_node.dataset.thumbnail_size);
             var field_name = field_node.getAttribute('name');
             var allowed_title = field_node.getAttribute('allowed_title');
             var tmpl = boundTemplate(field_name, allowed_title);
@@ -69,8 +71,9 @@
             var app = new Vue({
                 el: app_node,
                 data: data,
-                created: function() {
-                    this.$options.valid_extensions
+                placeholder_size: {
+                    width: thumbnail_size.width + 'px',
+                    height: thumbnail_size.height + 'px'
                 },
                 mounted: function(){
                     this.initDropzone();
@@ -106,12 +109,13 @@
                     deleteFile: function() {
                         app.field_value = "";
                     },
-                    viewFile: function() {
-
-                    },
                     getPreview: function() {
                         if ( this.field_value ) {
-                            $.getJSON('/uploadfield/preview/?file=' + this.field_value, function(data){
+                            var url = '/uploadfield/preview/?file=' + this.field_value;
+                            if (typeof thumbnail_name !== 'undefined') {
+                                url += '&thumbnail_name=' + thumbnail_name;
+                            }
+                            $.getJSON(url, function(data){
                                 app.preview = data;
                             });
                         } else {
