@@ -49,6 +49,7 @@ class UploadField(CharField):
         self.directory = kwargs.pop('directory', '')
         self.extensions = kwargs.pop('extensions', '')
         self.method = kwargs.pop('method', None)
+        self.rename = kwargs.pop('rename', None)
         return super().__init__(*args, **kwargs)
         
 
@@ -57,7 +58,8 @@ class UploadField(CharField):
         obj = {
             'value': value,
             'directory': self.directory,
-            'method': self.method
+            'method': self.method,
+            'rename': self.rename,
         }
         if not hasattr(model_instance, '_UploadFieldMixin__data'):
             # add instance

@@ -41,22 +41,25 @@ class UploadFieldMixin:
                     # and set instance attr new file path
 
                     # 0. apply func if exists
+                    rename = obj.get('rename', None)
+                    if rename and callable(rename):
+                        renamed_file = f"{rename(self)}{value.extension}"
+
                     method = obj.get('method', None)
                     if method and callable(method):
                         value_path = method(self, value)
 
                     # 1. find directory
-                    if directory:
-                        if callable(directory):
-                            new_path = directory(self)
-                        else:    
-                            new_path = directory.format(id=self.id)
+                    if directory and callable(directory):
+                        new_path = directory(self)
                         if not new_path.endswith('/'):
                             new_path += '/'
                     else:
                         new_path = ""
                     # 2. make new path
                     new_file_path = value_path.replace(TEMP_DIR, new_path)
+                    if renamed_file:
+                        new_file_path = new_file_path.replace(value.filename, renamed_file)
                     new_file_path = check_existing(new_file_path)
 
                     # 3. make dir if not exists
