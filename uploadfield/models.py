@@ -51,8 +51,8 @@ class UploadFieldMixin:
                         value_path = method(self, value)
 
                     # 1. find directory
-                    if directory and callable(directory):
-                        new_path = directory(self)
+                    if directory: 
+                        new_path = directory(self) if callable(directory) else directory
                         if not new_path.endswith('/'):
                             new_path += '/'
                     else:
@@ -83,3 +83,10 @@ class UploadFieldMixin:
             # we delete this key because will call 'save' again
             del self._UploadFieldMixin__data
             self.save()
+    
+    def delete(self, *args, **kwrags):
+        super().delete(*args, **kwrags)
+        if hasattr(self, '_UploadFieldMixin__data'):
+            for attname, obj in self._UploadFieldMixin__data.items():
+                delete_file(getattr(self, attname))
+

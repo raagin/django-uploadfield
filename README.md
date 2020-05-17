@@ -5,12 +5,13 @@ Features:
 - Dropdown
 - Dynamic preview and file info
 - Static or dynamic destination folder
+- Optional rename function
 - Custom file and image processing function
 
 django-uploadfield uses Dropzone.js, Vue, jQuery and Fancybox js modules. \
 Project in development stage. Now it works only in django admin interface.
 
-In plans:
+TODO:
 - Make it work with DjangoRestFramework.
 
 ## Installation
@@ -59,6 +60,7 @@ class MyModel(UploadFieldMixin, models.Model):
         )
     file = UploadField(
         directory=lambda o: f'myfiles/{o.id}/',
+        rename=lambda o: f"file_{o.id}",
         blank=True
         )
 ```
