@@ -8,8 +8,7 @@ Features:
 - Optional rename function
 - Custom file and image processing function
 
-django-uploadfield uses Dropzone.js, Vue, jQuery and Fancybox js modules. \
-Project in development stage. Now it works only in django admin interface.
+django-uploadfield uses Dropzone.js, Vue, jQuery and Fancybox js modules.
 
 TODO:
 - Make it work with DjangoRestFramework.
@@ -67,6 +66,7 @@ class MyModel(UploadFieldMixin, models.Model):
 Field have same options with FileBrowserField
 - `directory` - 'upload to' option of FB is overrided and can be callable. Method get one argument - model instance. (optional)
 - `extensions` - list of allowed extensions `[".jpg", ".png"]` (optional).
+- `thumbnail` - string. name of fb_version defined in `FILEBROWSER_VERSIONS`. (optional)
 - `rename` - file renaming method. Should return the filename without extension (optional)
 - `method` - Custom file and image processing function. Method get two arguments, model instance and FileObject. (optional)
 - Use `blank=True` for the possibility of an empty value
