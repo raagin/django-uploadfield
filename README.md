@@ -11,7 +11,7 @@ Features:
 django-uploadfield uses Dropzone.js, Vue, jQuery and Fancybox js modules.
 
 TODO:
-- Make it work with DjangoRestFramework.
+- Make it works with DjangoRestFramework.
 
 ## Installation
 
@@ -59,7 +59,7 @@ class MyModel(UploadFieldMixin, models.Model):
         )
     file = UploadField(
         directory=lambda o: f'myfiles/{o.id}/',
-        rename=lambda o: f"file_{o.id}",
+        rename=lambda o: f'file_{o.id}',
         blank=True
         )
 ```
