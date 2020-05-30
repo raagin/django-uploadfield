@@ -17,7 +17,6 @@ def check_existing(file_path):
         file_basename, file_ext = os.path.splitext(file_path)
         file_path = "%s_%s%s" % (file_basename, uuid4().hex[:7], file_ext)
     file_name = os.path.basename(file_path)
-    print(file_name)
     return (file_path, file_name)
 
 def makedir(dir_path):

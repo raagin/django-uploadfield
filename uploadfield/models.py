@@ -29,7 +29,6 @@ class UploadFieldMixin:
                 initial_value = obj['initial_value']
                 value = obj.get('value', None)
                 value_path = value.path if value else ""
-                directory = obj.get('directory', None)
 
                 if initial_value == value_path:
                     continue
@@ -51,6 +50,7 @@ class UploadFieldMixin:
                         value_path = method(self, value)
 
                     # 1. find directory
+                    directory = obj.get('directory', None)
                     if directory: 
                         new_path = directory(self) if callable(directory) else directory
                         if not new_path.endswith('/'):
