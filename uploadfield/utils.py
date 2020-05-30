@@ -16,7 +16,9 @@ def check_existing(file_path):
         # add hash to file name if same name exists
         file_basename, file_ext = os.path.splitext(file_path)
         file_path = "%s_%s%s" % (file_basename, uuid4().hex[:7], file_ext)
-    return file_path
+    file_name = os.path.basename(file_path)
+    print(file_name)
+    return (file_path, file_name)
 
 def makedir(dir_path):
     if not os.path.exists(dir_path):
@@ -32,7 +34,7 @@ def handle_uploaded_file(f, to):
     makedir(to_dir)
     
     file_path = os.path.join(to_dir, file_name)
-    file_path = check_existing(file_path)
+    file_path, file_name = check_existing(file_path)
     
     with open(file_path, 'wb+') as image_file:
         for chunk in f.chunks():
@@ -42,6 +44,6 @@ def handle_uploaded_file(f, to):
     return file_url
 
 def delete_file(file):
-    # storage.delete(file_path)
-    file.delete()
-    file.delete_versions()
+    if file:
+        file.delete()
+        file.delete_versions()

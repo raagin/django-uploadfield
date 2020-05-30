@@ -61,7 +61,7 @@ class UploadFieldMixin:
                     new_file_path = value_path.replace(TEMP_DIR, new_path)
                     if renamed_file:
                         new_file_path = new_file_path.replace(value.filename, renamed_file)
-                    new_file_path = check_existing(new_file_path)
+                    new_file_path, file_name = check_existing(new_file_path)
 
                     # 3. make dir if not exists
                     makedir(os.path.dirname(
