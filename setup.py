@@ -17,6 +17,9 @@ setuptools.setup(
     license='MIT',
     zip_safe=False,
     python_requires='>=3',
+    install_requires=[
+        'django-filebrowser>=3.13',
+    ],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Programming Language :: Python :: 3",
