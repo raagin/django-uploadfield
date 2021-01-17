@@ -12,7 +12,8 @@ def move_file(temp_path, file_path):
     storage.move(temp_path, file_path)
 
 def check_existing(file_path):
-    if os.path.exists(file_path):
+    full_file_path = os.path.join(settings.MEDIA_ROOT, file_path)
+    if os.path.exists(full_file_path):
         # add hash to file name if same name exists
         file_basename, file_ext = os.path.splitext(file_path)
         file_path = "%s_%s%s" % (file_basename, uuid4().hex[:7], file_ext)

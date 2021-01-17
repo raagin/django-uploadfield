@@ -1,9 +1,10 @@
+import os
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http import JsonResponse
 from django.core.exceptions import PermissionDenied
 from django.template.defaultfilters import filesizeformat
-
 from filebrowser.base import FileObject
+from filebrowser.settings import DIRECTORY
 
 from .conf import TEMP_DIR, THUMBNAIL
 from .utils import handle_uploaded_file
@@ -14,7 +15,8 @@ def upload_file(request):
         raise PermissionDenied
     if request.method == 'POST' and request.FILES:
             f = request.FILES['files']
-            tmp_file = handle_uploaded_file(f, to=TEMP_DIR)
+            to = request.POST.get('to', DIRECTORY)
+            tmp_file = handle_uploaded_file(f, to=os.path.join(TEMP_DIR, to))
             return JsonResponse({
                 'success': True,
                 'file': tmp_file
