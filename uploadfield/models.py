@@ -26,8 +26,10 @@ class UploadFieldMixin:
         if hasattr(self, '_UploadFieldMixin__data'):
             for attname, obj in self._UploadFieldMixin__data.items():
                 
-                initial_value = obj['initial_value']
+                initial_value = obj.get('initial_value', "")
                 value = obj.get('value', None)
+                if value == None:
+                    continue
                 value_path = value.path if value else ""
 
                 if initial_value == value_path:
