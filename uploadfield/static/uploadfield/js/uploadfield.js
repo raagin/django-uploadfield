@@ -73,7 +73,7 @@
                 data: data,
                 placeholder_size: {
                     width: thumbnail_size.width + 'px',
-                    height: thumbnail_size.height + 'px'
+                    height: 'auto'
                 },
                 mounted: function(){
                     this.initDropzone();
