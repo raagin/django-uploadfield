@@ -3,6 +3,7 @@ from django.db import models
 from django.conf import settings
 
 from filebrowser.base import FileObject
+from filebrowser.settings import DIRECTORY
 
 from uploadfield.conf import TEMP_DIR
 from uploadfield.utils import check_existing, makedir, move_file, delete_file
@@ -28,7 +29,9 @@ class UploadFieldMixin:
                 
                 initial_value = obj.get('initial_value', "")
                 value = obj.get('value', None)
-                if value == None:
+                if not value:
+                    if initial_value:
+                        delete_file(FileObject(initial_value))
                     continue
                 value_path = value.path if value else ""
 
@@ -58,7 +61,7 @@ class UploadFieldMixin:
                         if not new_path.endswith('/'):
                             new_path += '/'
                     else:
-                        new_path = ""
+                        new_path = DIRECTORY
                     # 2. make new path
                     new_file_path = value_path.replace(TEMP_DIR, new_path)
                     if renamed_file:
@@ -77,11 +80,6 @@ class UploadFieldMixin:
                     # also can be in the list
                     setattr(self, attname, FileObject(new_file_path))
 
-                # value is empty and initial_value not empty
-                # delete file if field cleared or changed
-                if initial_value:
-                    delete_file(FileObject(initial_value))
-
             # we delete this key because will call 'save' again
             del self._UploadFieldMixin__data
             self.save()
@@ -90,5 +88,7 @@ class UploadFieldMixin:
         super().delete(*args, **kwrags)
         if hasattr(self, '_UploadFieldMixin__data'):
             for attname, obj in self._UploadFieldMixin__data.items():
+                print('attname', attname)
+                print('obj', obj)
                 delete_file(getattr(self, attname))
 
