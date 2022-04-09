@@ -5,7 +5,7 @@ from django.conf import settings
 from filebrowser.base import FileObject
 from filebrowser.settings import DIRECTORY
 
-from uploadfield.conf import TEMP_DIR
+from uploadfield.conf import TEMP_DIR, KEEP_FILES_ON_DELETE
 from uploadfield.utils import check_existing, makedir, move_file, delete_file
 
 class UploadFieldMixin:
@@ -86,9 +86,7 @@ class UploadFieldMixin:
     
     def delete(self, *args, **kwrags):
         super().delete(*args, **kwrags)
-        if hasattr(self, '_UploadFieldMixin__data'):
+        if hasattr(self, '_UploadFieldMixin__data') and not KEEP_FILES_ON_DELETE:
             for attname, obj in self._UploadFieldMixin__data.items():
-                print('attname', attname)
-                print('obj', obj)
                 delete_file(getattr(self, attname))
 
