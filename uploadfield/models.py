@@ -20,17 +20,17 @@ class UploadFieldMixin:
             field_cls = cls._meta.get_field(f)
             if field_cls.__class__.__name__ == 'UploadField':
                 _db.__data[f] = dict(initial_value=str(value))
+                _db.__data[f]['keep_files_on_delete'] = field_cls.keep_files_on_delete
         return _db
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)        
         if hasattr(self, '_UploadFieldMixin__data'):
             for attname, obj in self._UploadFieldMixin__data.items():
-                
                 initial_value = obj.get('initial_value', "")
                 value = obj.get('value', None)
                 if not value:
-                    if initial_value:
+                    if initial_value and not obj['keep_files_on_delete']:
                         delete_file(FileObject(initial_value))
                     continue
                 value_path = value.path if value else ""
@@ -88,5 +88,6 @@ class UploadFieldMixin:
         super().delete(*args, **kwrags)
         if hasattr(self, '_UploadFieldMixin__data') and not KEEP_FILES_ON_DELETE:
             for attname, obj in self._UploadFieldMixin__data.items():
-                delete_file(getattr(self, attname))
+                if not obj['keep_files_on_delete']:
+                    delete_file(getattr(self, attname))
 

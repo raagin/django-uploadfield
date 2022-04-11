@@ -10,7 +10,7 @@ from filebrowser.base import FileObject
 from filebrowser.sites import site
 from filebrowser.settings import VERSIONS
 
-from .conf import THUMBNAIL
+from .conf import THUMBNAIL, KEEP_FILES_ON_DELETE
 
 class UploadFieldWidget(FileBrowseWidget):
     template_name = 'uploadfield/uploadfield_widget.html'
@@ -74,6 +74,7 @@ class UploadField(CharField):
         self.extensions = kwargs.pop('extensions', '')
         self.method = kwargs.pop('method', None)
         self.rename = kwargs.pop('rename', None)
+        self.keep_files_on_delete = kwargs.pop('keep_files_on_delete', KEEP_FILES_ON_DELETE)
         self.thumbnail = kwargs.pop('thumbnail', '')
         return super().__init__(*args, **kwargs)
         
@@ -85,6 +86,7 @@ class UploadField(CharField):
             'directory': self.directory,
             'method': self.method,
             'rename': self.rename,
+            'keep_files_on_delete': self.keep_files_on_delete
         }
         if not hasattr(model_instance, '_UploadFieldMixin__data'):
             # add instance
