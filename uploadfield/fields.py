@@ -94,9 +94,11 @@ class UploadField(CharField):
             v = {}
             v[self.attname] = obj
             setattr(model_instance, '_UploadFieldMixin__data', v)
-        else:
+        elif self.attname in model_instance._UploadFieldMixin__data:
             # change instance
             model_instance._UploadFieldMixin__data[self.attname].update(obj)
+        else:
+            model_instance._UploadFieldMixin__data[self.attname] = obj
         return value
 
     def to_python(self, value):
