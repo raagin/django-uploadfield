@@ -77,7 +77,7 @@
     font-weight: bold;
     min-height: 0;
     height: auto;
-    float: left;
+    display: inline-block;
     background-image: linear-gradient(#e5e5e5,#dbdbdb);
 }
 .uploadfield_app__preview.document a.link {
