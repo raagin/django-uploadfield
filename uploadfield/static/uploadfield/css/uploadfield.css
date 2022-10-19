@@ -79,6 +79,7 @@
     min-height: 0;
     height: auto;
     display: inline-block;
+    white-space: nowrap;
     background-image: linear-gradient(#e5e5e5,#dbdbdb);
 }
 .uploadfield_app__preview.document a.link,
