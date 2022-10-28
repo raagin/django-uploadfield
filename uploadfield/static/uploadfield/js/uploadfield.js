@@ -65,7 +65,7 @@
                 field_value: field_node.value,
                 preview: {},
                 uploading: false,
-                totalBytes: 0,
+                totalBytes: 0
             };
 
             var app = new Vue({
@@ -86,6 +86,7 @@
                             headers: {"X-CSRFToken": csrftoken},
                             paramName: 'files',
                             maxFiles: 1,
+                            timeout: 0,
                             createImageThumbnails: false,
                             previewTemplate: dz_tmpl
                         };
