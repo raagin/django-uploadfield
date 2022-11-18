@@ -1,7 +1,6 @@
 import os
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http import JsonResponse
-from django.core.exceptions import PermissionDenied
 from django.template.defaultfilters import filesizeformat
 from filebrowser.base import FileObject
 
@@ -10,8 +9,6 @@ from .utils import handle_uploaded_file
 
 @staff_member_required
 def upload_file(request):
-    if not request.is_ajax():
-        raise PermissionDenied
     if request.method == 'POST' and request.FILES:
             f = request.FILES['files']
             tmp_file = handle_uploaded_file(f, to=TEMP_DIR)
@@ -23,9 +20,6 @@ def upload_file(request):
         
 @staff_member_required
 def preview(request):
-    if not request.is_ajax():
-        raise PermissionDenied
-
     file = request.GET.get('file')
     obj = FileObject(file) if file else ""
     thumbnail_name = request.GET.get('thumbnail_name', THUMBNAIL)
