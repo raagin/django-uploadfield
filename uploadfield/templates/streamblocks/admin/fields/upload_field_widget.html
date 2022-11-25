@@ -1,3 +1,7 @@
 <div class="uploadfield__image">
-    <img src="{{ field.value.url }}" alt="">
+    {% if field.value.filetype == 'Image' %}
+        <img src="{{ field.value.url }}" alt="">    
+    {% else %}
+        <a target="_blank" href="{{ field.value.url }}">{{ field.value.filename }}</a>
+    {% endif %}
 </div>
