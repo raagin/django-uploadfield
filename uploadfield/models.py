@@ -24,15 +24,11 @@ class UploadFieldMixin:
         return _db
 
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)        
+        super().save(*args, **kwargs)  
         if hasattr(self, '_UploadFieldMixin__data'):
             for attname, obj in self._UploadFieldMixin__data.items():
                 initial_value = obj.get('initial_value', "")
                 value = obj.get('value', None)
-                if not value:
-                    if initial_value and not obj['keep_files_on_delete']:
-                        delete_file(FileObject(initial_value))
-                    continue
                 value_path = value.path if value else ""
 
                 if initial_value == value_path:
