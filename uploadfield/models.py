@@ -31,7 +31,7 @@ class UploadFieldMixin:
                 value = obj.get('value', None)
                 value_path = value.path if value else ""
 
-                if initial_value == value_path and not value_path.startswith(TEMP_DIR:
+                if initial_value == value_path and not value_path.startswith(TEMP_DIR):
                     continue
                 
                 # if value changed
