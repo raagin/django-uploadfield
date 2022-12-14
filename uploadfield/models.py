@@ -36,7 +36,7 @@ class UploadFieldMixin:
                 
                 # if value changed
                 # value can be empty or not
-                if value and value_path.startswith(TEMP_DIR):
+                if initial_value == value_path and not value_path.startswith(TEMP_DIR):
                     # move file from temporary folder to main storage
                     # and set instance attr new file path
 
