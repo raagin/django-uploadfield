@@ -110,7 +110,7 @@ class UploadField(CharField):
         return self.to_python(value)
 
     def get_prep_value(self, value):
-        if not value:
+        if not value or not isinstance(value, FileObject)::
             return value
         return value.path
 
