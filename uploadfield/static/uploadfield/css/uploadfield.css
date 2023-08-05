@@ -141,6 +141,17 @@
     width: 100%;
     opacity: 0;
 }
+.uploadfield_app__preview.audio {
+    height: auto;
+}
+.uploadfield_app__preview.audio > div {
+    display: inline-block;
+}
+.uploadfield_app__delete, .uploadfield_app__view {
+    margin-left: 5px;
+    width: 18px;
+    height: 18px;
+}
 
 .uploadfield_app__delete:hover,
 .uploadfield_app__view:hover {
