@@ -97,6 +97,7 @@
                         });
                         dz.on("addedfile", function(file) {
                             app.uploading = true;
+                            window.onbeforeunload = () => { return false }
                         });
                         dz.on('success', function(e, data){
                             app.field_value = data.file;
@@ -105,6 +106,7 @@
                             app.uploading = false; 
                             destroyDZ(dz);
                             app.initDropzone();
+                            window.onbeforeunload = () => { return }
                         });
                     },
                     deleteFile: function() {
