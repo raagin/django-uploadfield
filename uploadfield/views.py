@@ -10,12 +10,12 @@ from .utils import handle_uploaded_file
 @staff_member_required
 def upload_file(request):
     if request.method == 'POST' and request.FILES:
-            f = request.FILES['files']
-            tmp_file = handle_uploaded_file(f, to=TEMP_DIR)
-            return JsonResponse({
-                'success': True,
-                'file': tmp_file
-                })
+        f = request.FILES['files']
+        tmp_file = handle_uploaded_file(f, to=TEMP_DIR)
+        return JsonResponse({
+            'success': True,
+            'file': tmp_file
+            })
     return JsonResponse({'success': False})
         
 @staff_member_required

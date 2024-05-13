@@ -16,7 +16,7 @@
                 </div>
 
                 <a v-if="field_value" class="uploadfield_app__delete" href="javascript://"  @click="deleteFile"><img src="/static/uploadfield/images/close.svg"></a>
-                <a v-if="field_value && preview.filetype == 'Image'" class="uploadfield_app__view" data-fancybox :href="preview.url"><img src="/static/uploadfield/images/view.svg"></a>
+                <a v-if="field_value && preview.filetype == 'Image'" class="uploadfield_app__view" data-fancybox :data-options='fancy_options' :href="preview.url"><img src="/static/uploadfield/images/view.svg"></a>
                 <span v-if="field_value && preview.filetype == 'Image'" class="uploadfield_app__size">{{ preview.filesize }}</span>
             </div>
 
@@ -135,6 +135,9 @@
                     },
                     valid_extensions: function() {
                         return extensions ? extensions.join(', ') : "";
+                    },
+                    fancy_options: function() {
+                        return JSON.stringify({"caption" : this.preview.filename, "src" : this.preview.url})
                     }
                 },
                 watch: {
