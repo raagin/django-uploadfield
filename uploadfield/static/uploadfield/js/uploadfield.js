@@ -40,6 +40,7 @@
             var extensions = JSON.parse(field_node.dataset.extensions);
             var thumbnail_name = field_node.dataset.thumbnail;
             var thumbnail_size = JSON.parse(field_node.dataset.thumbnail_size);
+            var dropzone_options = JSON.parse(field_node.dataset.dropzoneOptions);
             var field_name = field_node.getAttribute('name');
             var allowed_title = field_node.getAttribute('allowed_title');
             var tmpl = boundTemplate(field_name, allowed_title);
@@ -50,7 +51,6 @@
               <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
               <div class="dz-error-message"><span data-dz-errormessage></span></div>
             </div>`;
-
             // we need to add vue functionality dynamicaly
             // because we need to work also with dynamicaly added nodes.
             // append vue tmpl to widjet
@@ -90,6 +90,10 @@
                             createImageThumbnails: false,
                             previewTemplate: dz_tmpl
                         };
+
+                        if (dropzone_options) {
+                            dz_options = Object.assign({}, dz_options, dropzone_options);
+                        }
 
                         dz = new Dropzone('#' + add_zone_node.id, dz_options);
                         dz.on('totaluploadprogress', function(totalBytes, totalBytesSent){

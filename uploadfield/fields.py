@@ -19,6 +19,7 @@ class UploadFieldWidget(FileBrowseWidget):
         super().__init__(attrs)
         self.site = attrs.get('filebrowser_site', None)
         self.extensions = attrs.get('extensions', '')
+        self.dropzone_options = attrs.get('dropzone_options', '')
         self.thumbnail = attrs.get('thumbnail', '')
         if attrs is not None:
             self.attrs = attrs.copy()
@@ -48,6 +49,7 @@ class UploadFieldWidget(FileBrowseWidget):
             value = FileObject(value, site=self.site)
         final_attrs = self.build_attrs(attrs, extra_attrs={"type": self.input_type, "name": name})
         final_attrs['data-extensions'] = json.dumps(self.extensions)
+        final_attrs['data-dropzone-options'] = json.dumps(self.dropzone_options)
         final_attrs['data-thumbnail_size'] = "{}"
         if self.thumbnail:
             final_attrs['data-thumbnail'] = self.thumbnail
@@ -71,7 +73,8 @@ class UploadField(CharField):
         kwargs['max_length'] = 255
         self.site = kwargs.pop('filebrowser_site', site)
         self.directory = kwargs.pop('directory', '')
-        self.extensions = kwargs.pop('extensions', '')
+        self.extensions = kwargs.pop('extensions', [])
+        self.dropzone_options = kwargs.pop('dropzone_options', {})
         self.method = kwargs.pop('method', None)
         self.rename = kwargs.pop('rename', None)
         self.keep_files_on_delete = kwargs.pop('keep_files_on_delete', KEEP_FILES_ON_DELETE)
@@ -129,6 +132,7 @@ class UploadField(CharField):
         attrs["directory"] = self.directory
         attrs["extensions"] = self.extensions
         attrs["thumbnail"] = self.thumbnail
+        attrs["dropzone_options"] = self.dropzone_options
         defaults = {
             'widget': widget_class(attrs=attrs),
             'form_class': FileBrowseFormField,
