@@ -10,7 +10,7 @@ from filebrowser.base import FileObject
 from filebrowser.sites import site
 from filebrowser.settings import VERSIONS
 
-from .conf import THUMBNAIL, KEEP_FILES_ON_DELETE
+from .conf import THUMBNAIL, KEEP_FILES_ON_DELETE, BASE_URL
 
 class UploadFieldWidget(FileBrowseWidget):
     template_name = 'uploadfield/uploadfield_widget.html'
@@ -20,6 +20,7 @@ class UploadFieldWidget(FileBrowseWidget):
         self.site = attrs.get('filebrowser_site', None)
         self.extensions = attrs.get('extensions', '')
         self.dropzone_options = attrs.get('dropzone_options', '')
+        self.base_url = attrs.get('base_url')
         self.thumbnail = attrs.get('thumbnail', '')
         if attrs is not None:
             self.attrs = attrs.copy()
@@ -50,6 +51,7 @@ class UploadFieldWidget(FileBrowseWidget):
         final_attrs = self.build_attrs(attrs, extra_attrs={"type": self.input_type, "name": name})
         final_attrs['data-extensions'] = json.dumps(self.extensions)
         final_attrs['data-dropzone-options'] = json.dumps(self.dropzone_options)
+        final_attrs['data-base-url'] = self.base_url
         final_attrs['data-thumbnail_size'] = "{}"
         if self.thumbnail:
             final_attrs['data-thumbnail'] = self.thumbnail
@@ -77,6 +79,7 @@ class UploadField(CharField):
         self.dropzone_options = kwargs.pop('dropzone_options', {})
         self.method = kwargs.pop('method', None)
         self.rename = kwargs.pop('rename', None)
+        self.base_url = kwargs.pop('base_url', BASE_URL)
         self.keep_files_on_delete = kwargs.pop('keep_files_on_delete', KEEP_FILES_ON_DELETE)
         self.thumbnail = kwargs.pop('thumbnail', '')
         return super().__init__(*args, **kwargs)
@@ -133,6 +136,7 @@ class UploadField(CharField):
         attrs["extensions"] = self.extensions
         attrs["thumbnail"] = self.thumbnail
         attrs["dropzone_options"] = self.dropzone_options
+        attrs["base_url"] = self.base_url
         defaults = {
             'widget': widget_class(attrs=attrs),
             'form_class': FileBrowseFormField,

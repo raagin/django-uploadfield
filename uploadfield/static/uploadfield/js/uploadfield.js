@@ -39,6 +39,7 @@
             var field_node = app_node.querySelector('.uploadfield__field');
             var extensions = JSON.parse(field_node.dataset.extensions);
             var thumbnail_name = field_node.dataset.thumbnail;
+            var base_url = field_node.dataset.baseUrl || '/uploadfield/';
             var thumbnail_size = JSON.parse(field_node.dataset.thumbnail_size);
             var dropzone_options = JSON.parse(field_node.dataset.dropzoneOptions);
             var field_name = field_node.getAttribute('name');
@@ -82,7 +83,7 @@
                 methods: {
                     initDropzone: function() {
                         var dz_options = { 
-                            url: "/uploadfield/upload/",
+                            url: base_url + "upload/",
                             headers: {"X-CSRFToken": csrftoken},
                             paramName: 'files',
                             maxFiles: 1,
@@ -118,7 +119,7 @@
                     },
                     getPreview: function() {
                         if ( this.field_value ) {
-                            var url = '/uploadfield/preview/?file=' + this.field_value;
+                            var url = base_url + 'preview/?file=' + this.field_value;
                             if (typeof thumbnail_name !== 'undefined') {
                                 url += '&thumbnail_name=' + thumbnail_name;
                             }
