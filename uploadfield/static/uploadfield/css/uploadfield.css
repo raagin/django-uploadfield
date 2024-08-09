@@ -6,7 +6,9 @@
 }
 .uploadfield__field {
     position: absolute;
-    left: -2000px;
+    left: -100vw;
+    visibility: hidden;
+    opacity: 0;
 }
 .uploadfield_app_tmpl:after {
     content: "";
