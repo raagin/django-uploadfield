@@ -3,7 +3,9 @@ import json
 from django.utils.translation import gettext_lazy as _
 from django.template.loader import render_to_string
 from django.db.models.fields import CharField
+from django.templatetags.static import static
 from django.contrib.admin.options import FORMFIELD_FOR_DBFIELD_DEFAULTS
+from django.conf import settings
 
 from filebrowser.fields import FileBrowseWidget, FileBrowseFormField
 from filebrowser.base import FileObject
@@ -21,6 +23,7 @@ class UploadFieldWidget(FileBrowseWidget):
         self.extensions = attrs.get('extensions', '')
         self.dropzone_options = attrs.get('dropzone_options', '')
         self.base_url = attrs.get('base_url')
+        self.static_folder = attrs.get('static_folder')
         self.thumbnail = attrs.get('thumbnail', '')
         if attrs is not None:
             self.attrs = attrs.copy()
@@ -31,16 +34,16 @@ class UploadFieldWidget(FileBrowseWidget):
     class Media:
         css = {
             'all': (
-                '/static/uploadfield/vendor/jquery.fancybox.min.css',
-                '/static/uploadfield/css/uploadfield.css',
+                static('uploadfield/vendor/jquery.fancybox.min.css'),
+                static('uploadfield/css/uploadfield.css'),
                 )
         }
         js = (
-            '/static/uploadfield/vendor/vue.min.js',
-            '/static/uploadfield/vendor/jquery.fancybox.min.js',
-            '/static/uploadfield/vendor/dropzone/dropzone.js',
-            '/static/uploadfield/vendor/js.cookie.js',
-            '/static/uploadfield/js/uploadfield.js',
+            static('uploadfield/vendor/vue.min.js'),
+            static('uploadfield/vendor/jquery.fancybox.min.js'),
+            static('uploadfield/vendor/dropzone/dropzone.js'),
+            static('uploadfield/vendor/js.cookie.js'),
+            static('uploadfield/js/uploadfield.js'),
             )
 
     def render(self, name, value, attrs=None, renderer=None):
@@ -52,6 +55,7 @@ class UploadFieldWidget(FileBrowseWidget):
         final_attrs['data-extensions'] = json.dumps(self.extensions)
         final_attrs['data-dropzone-options'] = json.dumps(self.dropzone_options)
         final_attrs['data-base-url'] = self.base_url
+        final_attrs['data-static-folder'] = self.static_folder
         final_attrs['data-thumbnail_size'] = "{}"
         if self.thumbnail:
             final_attrs['data-thumbnail'] = self.thumbnail
@@ -137,6 +141,7 @@ class UploadField(CharField):
         attrs["thumbnail"] = self.thumbnail
         attrs["dropzone_options"] = self.dropzone_options
         attrs["base_url"] = self.base_url
+        attrs["static_folder"] = settings.STATIC_URL
         defaults = {
             'widget': widget_class(attrs=attrs),
             'form_class': FileBrowseFormField,

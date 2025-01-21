@@ -5,7 +5,7 @@
         var uploadfield_nodes = document.querySelectorAll('.uploadfield_app:not([id*="__prefix__"])');
         var csrftoken = Cookies.get('csrftoken');
         // tmpl for dynamic added field
-        var boundTemplate = function(field_name, allowed_title) {
+        var boundTemplate = function(field_name, allowed_title, static_folder) {
             return `
             <div v-if="preview_exists" class="uploadfield_app__preview" :class="filetype_lower" :style="$options.placeholder_size">
                 <div v-if="preview.filetype == 'Image'">
@@ -15,8 +15,8 @@
                     <span><a :href="preview.url" target="_blank" class="link">{{ preview.filename }}</a> ({{ preview.filesize }})</span>
                 </div>
 
-                <a v-if="field_value" class="uploadfield_app__delete" href="javascript://"  @click="deleteFile"><img src="/static/uploadfield/images/close.svg"></a>
-                <a v-if="field_value && preview.filetype == 'Image'" class="uploadfield_app__view" data-fancybox :data-options='fancy_options' :href="preview.url"><img src="/static/uploadfield/images/view.svg"></a>
+                <a v-if="field_value" class="uploadfield_app__delete" href="javascript://"  @click="deleteFile"><img src="${static_folder}uploadfield/images/close.svg"></a>
+                <a v-if="field_value && preview.filetype == 'Image'" class="uploadfield_app__view" data-fancybox :data-options='fancy_options' :href="preview.url"><img src="${static_folder}uploadfield/images/view.svg"></a>
                 <span v-if="field_value && preview.filetype == 'Image'" class="uploadfield_app__size">{{ preview.filesize }}</span>
             </div>
 
@@ -36,19 +36,20 @@
         Dropzone.autoDiscover = false;
 
         function initApp(app_node) {            
-            var field_node = app_node.querySelector('.uploadfield__field');
-            var extensions = JSON.parse(field_node.dataset.extensions);
-            var thumbnail_name = field_node.dataset.thumbnail;
-            var base_url = field_node.dataset.baseUrl || '/uploadfield/';
-            var thumbnail_size = JSON.parse(field_node.dataset.thumbnail_size);
-            var dropzone_options = JSON.parse(field_node.dataset.dropzoneOptions);
-            var field_name = field_node.getAttribute('name');
-            var allowed_title = field_node.getAttribute('allowed_title');
-            var tmpl = boundTemplate(field_name, allowed_title);
-            var add_zone_node;
-            var directory = field_node.dataset.directory;
-            var dz;
-            var dz_tmpl = `<div class="dz-preview dz-file-preview">
+            let field_node = app_node.querySelector('.uploadfield__field');
+            let extensions = JSON.parse(field_node.dataset.extensions);
+            let thumbnail_name = field_node.dataset.thumbnail;
+            let base_url = field_node.dataset.baseUrl || '/uploadfield/';
+            let thumbnail_size = JSON.parse(field_node.dataset.thumbnail_size);
+            let dropzone_options = JSON.parse(field_node.dataset.dropzoneOptions);
+            let field_name = field_node.getAttribute('name');
+            let allowed_title = field_node.getAttribute('allowed_title');
+            let static_folder = field_node.dataset.staticFolder || '/static/';
+            let tmpl = boundTemplate(field_name, allowed_title, static_folder);
+            let add_zone_node;
+            let directory = field_node.dataset.directory;
+            let dz;
+            let dz_tmpl = `<div class="dz-preview dz-file-preview">
               <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
               <div class="dz-error-message"><span data-dz-errormessage></span></div>
             </div>`;
@@ -61,7 +62,7 @@
             field_node.setAttribute('v-model', 'field_value');
 
             // initial data object
-            var data = {
+            let data = {
                 name: field_node.getAttribute('name'),
                 field_value: field_node.value,
                 preview: {},
@@ -69,7 +70,7 @@
                 totalBytes: 0
             };
 
-            var app = new Vue({
+            let app = new Vue({
                 el: app_node,
                 data: data,
                 placeholder_size: {
@@ -82,7 +83,7 @@
                 },
                 methods: {
                     initDropzone: function() {
-                        var dz_options = { 
+                        let dz_options = { 
                             url: base_url + "upload/",
                             headers: {"X-CSRFToken": csrftoken},
                             paramName: 'files',
@@ -119,7 +120,7 @@
                     },
                     getPreview: function() {
                         if ( this.field_value ) {
-                            var url = base_url + 'preview/?file=' + this.field_value;
+                            let url = base_url + 'preview/?file=' + this.field_value;
                             if (typeof thumbnail_name !== 'undefined') {
                                 url += '&thumbnail_name=' + thumbnail_name;
                             }
@@ -158,7 +159,7 @@
 
 
         function handleNodes(uploadfield_nodes) {
-            for (var i = 0; i < uploadfield_nodes.length; i++) {
+            for (let i = 0; i < uploadfield_nodes.length; i++) {
                 initApp(uploadfield_nodes[i]);
             }            
         }
@@ -184,10 +185,10 @@
 if (typeof grp !== 'undefined') {
     // for grappelli inlines
     window.onload = function(){
-        var $ = django.jQuery;
+        let $ = django.jQuery;
         $('.grp-dynamic-form .grp-add-handler').click(function(){
-            var new_inline = $(this).closest('.grp-dynamic-form').prev().find('.grp-empty-form').prev();
-            var uploadfield_nodes = new_inline[0].querySelectorAll('.uploadfield_app');
+            let new_inline = $(this).closest('.grp-dynamic-form').prev().find('.grp-empty-form').prev();
+            let uploadfield_nodes = new_inline[0].querySelectorAll('.uploadfield_app');
             setTimeout(function(){
                 window.uploadfield.handleNodes(uploadfield_nodes);    
             }, 200);
@@ -196,10 +197,10 @@ if (typeof grp !== 'undefined') {
 } else if (typeof django !== 'undefined') {
     // for django admin inlines
     window.onload = function(){
-        var $ = django.jQuery;
+        let $ = django.jQuery;
         $('.add-row a').click(function(){
-            var new_inline = $(this).closest('.inline-related').find('.empty-form').prev();
-            var uploadfield_nodes = new_inline[0].querySelectorAll('.uploadfield_app');
+            let new_inline = $(this).closest('.inline-related').find('.empty-form').prev();
+            let uploadfield_nodes = new_inline[0].querySelectorAll('.uploadfield_app');
             setTimeout(function(){
                 window.uploadfield.handleNodes(uploadfield_nodes);    
             }, 200);
