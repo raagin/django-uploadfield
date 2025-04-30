@@ -184,3 +184,12 @@
     line-height: 13px;
     white-space: normal !important;
 }
+
+.dz-error-message {
+    padding: 7px;
+    font-size: 10px;
+    position: absolute;
+    left: 100%;
+    width: 150px;
+    color: red;
+}

@@ -12,7 +12,7 @@ from filebrowser.base import FileObject
 from filebrowser.sites import site
 from filebrowser.settings import VERSIONS
 
-from .conf import THUMBNAIL, KEEP_FILES_ON_DELETE, BASE_URL
+from .conf import THUMBNAIL, KEEP_FILES_ON_DELETE, BASE_URL, DZ_DEFAULT_OPTIONS
 
 class UploadFieldWidget(FileBrowseWidget):
     template_name = 'uploadfield/uploadfield_widget.html'
@@ -21,7 +21,8 @@ class UploadFieldWidget(FileBrowseWidget):
         super().__init__(attrs)
         self.site = attrs.get('filebrowser_site', None)
         self.extensions = attrs.get('extensions', '')
-        self.dropzone_options = attrs.get('dropzone_options', '')
+        self.dropzone_options = DZ_DEFAULT_OPTIONS
+        self.dropzone_options.update(attrs.get('dropzone_options', {}))
         self.base_url = attrs.get('base_url')
         self.static_folder = attrs.get('static_folder')
         self.thumbnail = attrs.get('thumbnail', '')
