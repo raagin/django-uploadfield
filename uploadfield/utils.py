@@ -4,6 +4,7 @@ from uuid import uuid4
 from django.conf import settings
 from django.core.files.storage import DefaultStorage
 
+from pytils import translit
 from filebrowser.utils import convert_filename
 
 storage = DefaultStorage()
@@ -28,7 +29,8 @@ def makedir(dir_path):
             pass
 
 def handle_uploaded_file(f, to):
-    file_name = convert_filename(str(f))
+    file_name = translit.translify(str(f))
+    file_name = convert_filename(file_name)
     to_dir = os.path.join(settings.MEDIA_ROOT, *to.split('/'))
     
     makedir(to_dir)
