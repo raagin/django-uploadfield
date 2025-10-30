@@ -21,7 +21,7 @@ class UploadFieldWidget(FileBrowseWidget):
         super().__init__(attrs)
         self.site = attrs.get('filebrowser_site', None)
         self.extensions = attrs.get('extensions', '')
-        self.dropzone_options = DZ_DEFAULT_OPTIONS
+        self.dropzone_options = DZ_DEFAULT_OPTIONS.copy()
         self.dropzone_options.update(attrs.get('dropzone_options', {}))
         self.base_url = attrs.get('base_url')
         self.static_folder = attrs.get('static_folder')
