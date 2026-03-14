@@ -48,7 +48,9 @@ class UploadFieldMixin:
 
                     method = obj.get('method', None)
                     if method and callable(method):
-                        value_path = method(self, value)
+                        resp = method(self, value)
+                        if resp:
+                            value_path = resp
 
                     # 1. find directory
                     directory = obj.get('directory', None)
