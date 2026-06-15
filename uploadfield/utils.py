@@ -29,7 +29,7 @@ def makedir(dir_path):
             pass
 
 def handle_uploaded_file(f, to):
-    file_name = translit.translify(str(f))
+    file_name = translit.translify(str(f), strict=False)
     file_name = convert_filename(file_name)
     to_dir = os.path.join(settings.MEDIA_ROOT, *to.split('/'))
     
